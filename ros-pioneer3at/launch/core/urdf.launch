@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<launch>
+
+  <param name="robot_description" command="$(find xacro)/xacro $(find pioneer3at)/urdf/pioneer3at.xacro" />
+   
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="Pioneer3AT_tf_broadcaster"> 
+    <param name="tf_prefix" type="string" value=""/>
+    <param name="publish_frequency" type="double" value="20.0"/>
+  </node>
+  
+  <node pkg="pioneer3at" type="joint_state_publisher" name="Pioneer3AT_joints_publisher">
+    <param name="tf_future_date" type="double" value="0.05" />
+  </node>
+  
+</launch>

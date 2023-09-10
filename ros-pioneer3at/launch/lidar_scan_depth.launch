@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+
+<launch>
+	<include file="$(find depthimage_to_laserscan)/launch/launchfile_sample.launch" />
+	<node pkg="tf" type="static_transform_publisher" name="Pioneer3AT_laserscan_tf_1" args="0.05 -0.16 0.13 0 0 0 /base_link /l515_l_link 33" />
+	<node pkg="tf" type="static_transform_publisher" name="Pioneer3AT_laserscan_tf_2" args="0.05 0.16 0.13 0 0 0 /base_link /l515_r_link 34" />
+	<node pkg="tf" type="static_transform_publisher" name="Pioneer3AT_oakd_tf" args="0.08 0.0 0.60 0 0 0 /base_link /OAK_D_link 35" />
+	<include file="$(find ira_laser_tools)/launch/laserscan_multi_merger.launch" />
+
+</launch>
+

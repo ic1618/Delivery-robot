@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<launch>
+	<!-- Robot-driver you wish to use-->
+	<include file="$(find pioneer3at)/launch/core/rosaria.launch" />
+	
+	<node pkg="tf" type="static_transform_publisher" name="Pioneer3AT_sonar" args="0 0 0 0 0 0 /base_link /sonar 31" />
+	<!-- Other essential launch files -->
+	<include file="$(find pioneer3at)/launch/core/urdf.launch" />
+	<node pkg="rosaria_client" type="spatial_mobilenet.py" name="spatial_net" output="screen" args = "/home/yilong/catkin_ws/src/rosaria_client/src/mobilenet-ssd_openvino_2021.4_6shave.blob" />
+
+</launch>
+

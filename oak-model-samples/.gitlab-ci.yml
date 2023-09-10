@@ -1,0 +1,105 @@
+stages:
+  - lint
+  - build_packages
+  - test_packages
+  - mirror
+
+code_lint:
+  stage: lint
+  image: registry.gitlab.com/opencv-ai/model-benchmark/lint:py375
+  script:
+    - cd $CI_PROJECT_DIR
+    - python3.7 -V
+    - echo ${CI_COMMIT_SHA}
+    - SKIP=prettier pre-commit run -a
+  artifacts:
+    paths:
+      - "*"
+    exclude:
+      - .cache
+    expire_in: 1 day
+    when: on_failure
+  interruptible: true
+  except:
+    - main
+    - develop
+  tags:
+    - lint
+
+build_packages:
+  stage: build_packages
+  image: registry.gitlab.com/opencv-ai/model-benchmark/cpu:0.3
+  script:
+    - ./ci/build_packages.sh
+  artifacts:
+    paths:
+      - "wheel_packages/"
+    expose_as: "wheel_packages"
+    expire_in: 1 week
+    when: always
+  tags:
+    - build
+
+test_models_gen2_develop_commit:
+  variables:
+    PYTHONPATH: $CI_PROJECT_DIR
+  stage: test_packages
+  before_script:
+    - cd $CI_PROJECT_DIR
+  script:
+    - ./ci/test_package.sh
+  tags:
+    - oak
+  except:
+    - schedules
+
+test_models_gen2_develop_latest:
+  extends: test_models_gen2_develop_commit
+  variables:
+    LATEST_DEPTHAI: "true"
+  allow_failure: true
+
+test_models_gen2_develop_commit_schedule:
+  variables:
+    PYTHONPATH: $CI_PROJECT_DIR
+  stage: test_packages
+  before_script:
+    - cd $CI_PROJECT_DIR
+  script:
+    - ci/test_package.sh
+  tags:
+    - oak
+  only:
+    - schedules
+
+test_models_gen2_develop_latest_schedule:
+  extends: test_models_gen2_develop_commit_schedule
+  variables:
+    LATEST_DEPTHAI: "true"
+  allow_failure: true
+
+mirror_main:
+  stage: mirror
+  image: registry.gitlab.com/opencv-ai/oak-model-samples/mirror-cd
+  variables:
+    GIT_CHECKOUT: "false"
+    GIT_STRATEGY: "clone"
+  before_script:
+    - mkdir -m 700 -p ~/.ssh
+    - ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+    - eval `ssh-agent -s`
+    - chmod 600 ${GITHUB_SYNC_KEY}
+    - ssh-add -k ${GITHUB_SYNC_KEY}
+  script:
+    - git fetch origin ${CI_BUILD_REF_NAME}
+    - git checkout ${CI_BUILD_REF_NAME}
+    - git lfs fetch --all
+    - git remote set-url origin git@github.com:opencv-ai/oak-model-samples.git
+    - git lfs push --all origin ${CI_BUILD_REF_NAME}
+    - git push -u origin ${CI_BUILD_REF_NAME}
+  tags:
+    - build
+  only:
+    - main
+  except:
+    - schedules

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<launch>
+
+  <!-- Mapping Node -->
+  <group ns="rtabmap">
+    <node name="rtabmap" pkg="rtabmap_ros" type="rtabmap" output="screen" args="--delete_db_on_start">
+
+      <!-- Basic RTAB-Map Parameters -->
+      <param name="database_path"       type="string" value="rtabmap.db"/>
+      <param name="frame_id"            type="string" value="base_link"/>
+      <param name="odom_frame_id"       type="string" value="/odom"/>
+      <param name="subscribe_depth"     type="bool"   value="true"/>
+      <param name="subscribe_scan"      type="bool"   value="true"/>
+      <param name="queue_size"                    type="int"      value="200"/>
+      <param name="map_always_update"                             value="false" /> <!-- refresh grid map even if we are not moving-->
+      <param name="map_empty_ray_tracing"                         value="false" /> <!-- don't fill empty space between the generated scans-->
+      <!-- RTAB-Map Inputs -->
+      <param name="approx_sync"                   type="bool"     value="true" />
+      <param name="subscribe_rgbd"         type="bool"   value="true"/>
+      <param name="wait_for_transform_duration"                   value="0.1"/>
+      <param name="rgbd_cameras"           type="int"    value="2" />
+      
+      <remap from="scan"            to="/scan_multi"/>
+      <remap from="/rtabmap/rgbd_image0"     to="/l515_l/rgbd_image"/>
+      <remap from="/rtabmap/rgbd_image1"     to="/l515_r/rgbd_image"/>
+      <param name="Kp/MaxDepth"                                   value="0" />
+      <!-- RTAB-Map Output -->
+      <remap from="grid_map" to="/map"/>
+
+      <!-- Rate (Hz) at which new nodes are added to map -->
+      <param name="Rtabmap/DetectionRate" type="string" value="1"/> 
+
+      <!-- 2D SLAM -->
+      <param name="Reg/Force3DoF" type="string" value="true"/>  
+
+      <!-- Loop Closure Constraint -->
+      <!-- 0=Visual, 1=ICP (1 requires scan)-->
+      <param name="Reg/Strategy" type="string" value="1"/>  
+
+      <!-- Loop Closure Detection -->
+      <!-- 0=SURF 1=SIFT 2=ORB 3=FAST/FREAK 4=FAST/BRIEF 5=GFTT/FREAK 6=GFTT/BRIEF 7=BRISK 8=GFTT/ORB 9=KAZE-->
+      <param name="Kp/DetectorStrategy" type="string" value="3"/> 
+
+      <!-- Maximum visual words per image (bag-of-words) -->
+      <param name="Kp/MaxFeatures" type="string" value="400"/>  
+
+      <!-- Used to extract more or less SURF features -->
+      <param name="SURF/HessianThreshold" type="string" value="100"/>
+
+      <!-- Set to false to avoid saving data when robot is not moving -->
+      <param name="Mem/NotLinkedNodesKept" type="string" value="false"/>
+      
+      <param name="Optimizer/GravitySigma"                        value="0.1"/>
+      <param name="RGBD/NeighborLinkRefining"                     value="true" />
+      <param name="RGBD/SavedLocalizationIgnored" type="bool"     value="true"/> 
+      <!-- Minimum visual inliers to accept loop closure -->
+      <param name="Vis/MinInliers" type="string" value="15"/> 
+      <param name="Vis/CorGuessWinSize"           type="string"   value="0" />
+      <param name="Vis/EstimationType"            type="int"      value="0" />
+      <param name="Vis/FeatureType"               type="int"      value="3" />
+      <param name="Vis/MaxDepth"                                  value="0" />  
+      <param name="Vis/MaxFeatures"               type="int"      value="0" />
+
+    </node> 
+  </group>
+</launch>
+

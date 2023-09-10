@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<launch>
+
+<!-- Robot-driver you wish to use-->
+<include file="$(find pioneer3at)/launch/core/rosaria_dummy.launch" />
+
+<!-- Other essential launch files -->
+<include file="$(find pioneer3at)/launch/core/urdf.launch" />
+<!--include file="$(find pioneer3at)/launch/control/cmd_vel_mux.launch" /-->
+
+<!-- Quick hack -->
+<node pkg="tf" type="static_transform_publisher" name="Pioneer3AT_base_link_to_footprint" args="0 0 -0.177 0 0 0 /base_link /base_footprint 30" />
+
+<!-- Camera sync -->
+<!--include file="$(find pioneer3at)/launch/l515s_nodelet.launch"/-->
+<include file="$(find pioneer3at)/launch/l515s_nodelet_depth.launch"/>
+<include file="$(find pioneer3at)/launch/l515s_sync.launch"/>
+
+<!-- Laser merger scan -->
+<!--include file="$(find pioneer3at)/launch/lidar_scan.launch" /-->
+<include file="$(find pioneer3at)/launch/lidar_scan_depth.launch" />
+
+<!-- Visual geometry -->
+<include file="$(find pioneer3at)/launch/vo.launch" />
+
+<!-- Odometry fusion -->
+<include file="$(find pioneer3at)/launch/od_fusion.launch" />
+
+<!-- Robot_steering -->
+<!--include file="$(find pioneer3at)/launch/control/rqt_robot_steering.launch" /-->  
+
+<!-- Map -->
+<!--include file="$(find pioneer3at)/launch/map.launch" /-->
+<!--include file="$(find pioneer3at)/launch/apps/gmapping_merge.launch" /-->
+
+<!--- Run AMCL -->
+<include file="$(find pioneer3at)/launch/amcl.launch"/>
+<include file="$(find pioneer3at)/launch/move_base.launch" />  
+
+<!-- Rviz-->
+<node name="rviz" pkg="rviz" type="rviz" args="-d $(find pioneer3at)/config/p3.rviz" />
+	 
+</launch>
+

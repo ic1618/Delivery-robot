@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<launch>
+	<include file="$(find realsense2_camera)/launch/rs_camera.launch">
+		<arg name="align_depth" value="true" />
+		<arg name="pointcloud" value="true" />
+	</include>
+	<include file="$(find pointcloud_to_laserscan)/launch/sample_node.launch" />
+	
+	<!-- publish static transform from the center of the robot to the laser rangefinder (required for slam_gmapping) -->
+	<node pkg="tf" type="static_transform_publisher" name="Pioneer3AT_laserscan_tf" args="0.18 0.025 0.18 0 0 0 /base_link /camera_link 33" />
+	<node pkg="tf" type="static_transform_publisher" name="Pioneer3AT_oakd_tf" args="-0.07 -0.00 0.662 0 0 0 /base_link /OAK_D_link 34" />
+	
+</launch>

@@ -1,0 +1,24 @@
+{
+    "detector/yolo-v4-tiny/Conv_17/BiasAdd/YoloRegion": {
+        "anchors": "10,14,23,27,37,58,81,82,135,169,344,319",
+        "axis": "1",
+        "classes": "80",
+        "coords": "4",
+        "do_softmax": "0",
+        "end_axis": "3",
+        "mask": "3,4,5",
+        "num": "6",
+        "originalLayersNames": "detector/yolo-v4-tiny/Conv_17/BiasAdd/YoloRegion"
+    },
+    "detector/yolo-v4-tiny/Conv_20/BiasAdd/YoloRegion": {
+        "anchors": "10,14,23,27,37,58,81,82,135,169,344,319",
+        "axis": "1",
+        "classes": "80",
+        "coords": "4",
+        "do_softmax": "0",
+        "end_axis": "3",
+        "mask": "1,2,3",
+        "num": "6",
+        "originalLayersNames": "detector/yolo-v4-tiny/Conv_20/BiasAdd/YoloRegion"
+    }
+}

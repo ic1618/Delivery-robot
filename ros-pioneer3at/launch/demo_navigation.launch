@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<launch>
+
+    <!-- Configure this launch file for your hardware setup  -->
+	  <include file="$(find pioneer3at)/launch/hardware.launch" />
+	
+	  <!-- Launch Applications  -->
+	  <include file="$(find pioneer3at)/launch/apps/gmapping.launch" />
+	  <!--- Run AMCL -->
+  	  <include file="/home/yilong/catkin_ws/src/motion/my_amcl_launcher/launch/my_amcl.launch"/>
+	  <include file="$(find pioneer3at)/launch/move_base.launch" />  
+	  <!-- Launch Visualization  -->
+	  <include file="$(find pioneer3at)/launch/ui.launch" />
+	  <node pkg="rosaria_client" type="spatial_mobilenet" name="spatial_net" output="screen"/>
+	  <node pkg="rosaria_client" type="main" name="main_script" output="screen"/>
+	
+</launch>
+
+
+

@@ -1,0 +1,43 @@
+<!--
+	Sample launch file for depthimage_to_laserscan
+	As of September 2nd 2021.
+-->
+
+<launch>
+
+  <!-- Depth Image to Laser Scan Node -->
+  <node name="depthimage_to_laserscan_1" pkg="depthimage_to_laserscan" type="depthimage_to_laserscan" args="">
+
+    <remap from="image"       to="/l515_l/aligned_depth_to_color/image_raw"/> <!-- change here for your camera depth topic name. Default: "/camera/depth/image_raw" -->
+    <remap from="camera_info" to="/l515_l/color/camera_info"/> 
+    <!-- the remap for camera_info by default uses the same path as the one given to the image topic. Default: "<path_to_image_topic>/camera_info>" -->
+
+    <!-- PARAMETERS: -->
+    <!-- These are the default values. --> 
+    <param name="scan_height"     type="int"    value="1"/> <!-- default: 1 pixel. Number of pixel rows used to generate laser scan. -->
+    <param name="scan_time"       type="double" value="0.033"/> <!-- default:0.033, 30 FPS . Time between scans. -->
+    <param name="range_min"       type="double" value="0.30"/> <!--default:0.45m. Ranges less than this are considered -Inf. -->
+    <param name="range_max"       type="double" value="9.0"/> <!--default: 10m. Ranges less than this are considered +Inf. -->
+    <param name="output_frame_id" type="str"    value="l515_l_depth_frame"/> <!--default: camera_depth_frame. Frame id of the laser scan. -->
+    <remap from="scan" to="scan_1"/>
+	
+  </node>
+  
+  <node name="depthimage_to_laserscan_2" pkg="depthimage_to_laserscan" type="depthimage_to_laserscan" args="">
+
+    <remap from="image"       to="/l515_r/aligned_depth_to_color/image_raw"/> <!-- change here for your camera depth topic name. Default: "/camera/depth/image_raw" -->
+    <remap from="camera_info" to="/l515_r/color/camera_info"/> 
+    <!-- the remap for camera_info by default uses the same path as the one given to the image topic. Default: "<path_to_image_topic>/camera_info>" -->
+
+    <!-- PARAMETERS: -->
+    <!-- These are the default values. --> 
+    <param name="scan_height"     type="int"    value="1"/> <!-- default: 1 pixel. Number of pixel rows used to generate laser scan. -->
+    <param name="scan_time"       type="double" value="0.033"/> <!-- default:0.033, 30 FPS . Time between scans. -->
+    <param name="range_min"       type="double" value="0.30"/> <!--default:0.45m. Ranges less than this are considered -Inf. -->
+    <param name="range_max"       type="double" value="9.0"/> <!--default: 10m. Ranges less than this are considered +Inf. -->
+    <param name="output_frame_id" type="str"    value="l515_r_depth_frame"/> <!--default: camera_depth_frame. Frame id of the laser scan. -->
+    <remap from="scan" to="scan_2"/>
+	
+  </node>
+	
+</launch>
