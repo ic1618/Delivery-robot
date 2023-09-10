@@ -15,7 +15,7 @@ Welcome to the Send-a-bot repository! For our Year 4 MEng Electrical and Electro
 
 The send-a-bot is assembled as following and is controlled via a laptop
 
-![Alt Text](https://github.com/ic1618/Robot-navigation/blob/main/doc/thumbnail_Image.jpg)
+![Alt Text](https://github.com/ic1618/Delivery-robot/blob/main/doc/thumbnail_Image.jpg)
 
 ## Install
 
@@ -97,7 +97,7 @@ $ roslaunch pioneer3at gmapping_merge.launch
 ```
 
 An example map build from a narrow hallway is shown as below: 
-![Alt Text](https://github.com/ic1618/Robot-navigation/blob/main/doc/8.png)
+![Alt Text](https://github.com/ic1618/Delivery-robot/blob/main/doc/8.png)
 
 To perform V-SLAM mixed with Lidar scans, sync the cameras to generate RGBD images and launch the rtabmap node
 ```
@@ -109,7 +109,7 @@ $ roslaunch pioneer3at map.launch
 
 An example map build from a extended narrow hallway is shown as below, there appears to be many noise, and the path is curved due to odometry drifts. In addition, due to inexact camera calibration / transform the is built twice by the two camera seperately. Multi Lidar calibration is recommended in beforehand
 
-![Alt Text](https://github.com/ic1618/Robot-navigation/blob/main/doc/12.png)
+![Alt Text](https://github.com/ic1618/Delivery-robot/blob/main/doc/12.png)
 
 ## Navigation
 
@@ -123,11 +123,11 @@ $ rosrun rviz rviz -d $(find pioneer3at)/config/p4.rviz
 
 We should see something like this:
 
-![Alt Text](https://github.com/ic1618/Robot-navigation/blob/main/doc/2.png)
+![Alt Text](https://github.com/ic1618/Delivery-robot/blob/main/doc/2.png)
 
 Note that due to minimum range of the l515 cameras, objects which are closer than 25cm may not get detected, it is recommendated to use P3-AT's sonar for the purposes of local path planning. The sonar is enabled if the topic is subscribed:
 
-![Alt Text](https://github.com/ic1618/Robot-navigation/blob/main/doc/4.png)
+![Alt Text](https://github.com/ic1618/Delivery-robot/blob/main/doc/4.png)
 
 ## Demostration
 
@@ -147,13 +147,13 @@ $ roslaunch rosaria_client main.py
 
 ### Obstacle avoidance:
 
-![Alt Text](https://github.com/ic1618/Robot-navigation/blob/main/doc/20.gif)
+![Alt Text](https://github.com/ic1618/Delivery-robot/blob/main/doc/20.gif)
 
 
 
 ### Person approaching:
 
-![Alt Text](https://github.com/ic1618/Robot-navigation/blob/main/doc/21.gif)
+![Alt Text](https://github.com/ic1618/Delivery-robot/blob/main/doc/21.gif)
 
 
 ## Future work:
